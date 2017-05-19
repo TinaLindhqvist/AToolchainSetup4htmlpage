@@ -19,6 +19,7 @@ repo:
 build:
   service_id: pipeline
   parameters:
+    name: '{{toolchain.name}}'
     ui-pipeline: true
     configuration: 
      content: $file(pipeline.yml)
