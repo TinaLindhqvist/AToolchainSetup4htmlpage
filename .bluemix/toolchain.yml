@@ -1,0 +1,32 @@
+---
+name: "Toolchain Template to setup multiple tools"
+description: "Toolchain template to be used in Functional System Test.\n Click CREATE to start."
+version: 0.1
+
+toolchain:
+  name: 'A-test-toolchain-{{timestamp}}'
+
+# Github repos
+repo:
+  service_id: githubpublic
+  parameters:
+      repo_name: '{{toolchain.name}}'
+      repo_url: 'https://github.com/open-toolchain/node-hello-world'
+      type: clone
+      has_issues: true
+
+# Pipelines
+build:
+  service_id: pipeline
+  parameters:
+    ui-pipeline: true
+    configuration: 
+     content: $file(pipeline.yml)
+     env:
+      REPO: "repo"
+     execute: true
+    services: ["repo"]
+    
+#Web IDE
+webide:
+  service_id: orion
