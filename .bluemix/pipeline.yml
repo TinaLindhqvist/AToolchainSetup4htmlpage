@@ -1,0 +1,22 @@
+---
+stages:
+- name: BuildStage
+  inputs:
+  - type: git
+    branch: master
+    service: ${REPO}
+  triggers:
+  - type: commit
+  jobs:
+  - name: BuildJob
+    type: builder
+- name: DEPLOY
+  inputs:
+  - type: job
+    stage: BUILD
+    job: Build
+  triggers:
+  - type: stage
+  jobs:
+  - name: Blue-Green Deploy
+    type: deployer
